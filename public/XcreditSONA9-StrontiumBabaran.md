@@ -22,4 +22,3 @@ Aside from this, his SONA was fine because he didn't address all the major probl
 ### What 1 word/ phrase/ or sentence do you have for the Philippines after hearing SONA 2025?
 
 Fine.
-! [SONA 2025] (![alt text](image-1.png))
