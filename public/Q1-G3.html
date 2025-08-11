@@ -1,0 +1,29 @@
+<h1> Q1 3rd Graded Exercise submitted by Babaran, Strontium<h1>
+    
+    <p> Stuff:</p>
+    
+    <input id="mealprice" type="number" placeholder="Meal Price:"> <br>
+    <input id="tip" type="number" placeholder="Tip"> <br>
+    <input id="servicecharge" type="number" placeholder="Service Charge"> <br>
+    
+    <button onclick="calculateTotal()"> Calculate Total </button>
+    
+    <div id="out1"></div>
+    
+    <script>
+        
+        function printMealStuff() {
+            mealPrice = Number(mealprice.value)
+            myTip = Number (tip.value);
+            serviceCharge = Number(service_charge.value);
+
+            total = (mealPrice + myTip ) + (mealPrice * serviceCharge / 100);
+
+            totalOutput.innerHTML = "Total Amount: Php" + total.toPrecision(6);
+            alert("Total Amount: Php" + total.toFixed(2));
+            console.log("Total Amount: Php" + total.toexponential());
+           
+           
+        
+        }
+    </script>
