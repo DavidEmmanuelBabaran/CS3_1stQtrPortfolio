@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <h2> Q1 2nd Graded Exercise submitted by David Babaran of 9-Strontium</h2>
+
+    <!-- Enter your tags below until the script tag -->
+    
+    <input id="mealPrice" type="number" placeholder="Meal Price:"> <br>
+    <input id="myTip" type="number" placeholder="Tip"> <br>
+    <input id="serviceCharge" type="number" placeholder="Service Charge"> <br>            
+    
+    <button type="button" onclick="calculateTotal()"> Calculate Total </button>
+
+    <div id="result"></div>
+   
+
+    <script>
+        function totalMeal() {
+            var price = Number(mealPrice.value);
+            var tip = Number (myTip.value);
+            var charge = Number(serviceCharge.value); // place your JS code here
+            
+            var total = price + tip + charge / 100 * price;
+            
+            result.innerHTML = "Total Amount: Php" + total.toFixed(2);
+            result.innerHTML = ("total");
+            document.getElementById("result").innerHTML = total;
+          
+        }
+    </script>
+
+
+</body>
+</html>

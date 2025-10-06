@@ -11,8 +11,11 @@ rli.on('line', give_station)
 function give_station (num){
     switch (Number(num)) {
         case 15: 
-            console.log('rma' , ' -15')
+            console.log('rma' , ' - 15')
             break
+            default:
+                console.log('Unknown station')
+                break
 
     }
 }
