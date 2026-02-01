@@ -35,7 +35,7 @@
         <option value="arts">Arts</option>
     </select>
 
-    <button onclick="window.location.href='">Back to Form</button>
+    <button onclick="window.location.href='Q3_2G9-StrontiumBABARAN.html'">Back to Form</button>
 
     <table id="signupTable">
         <thead>
@@ -52,35 +52,9 @@
     <h3>Total Sign-ups: <span id="totalDisplay">0</span></h3>
 
     <script>
-        function loadTable() {
+        function loadTable() 
             
-            const data = JSON.parse(localStorage.getItem('allSignups')) || [];
-            const filter = document.getElementById('clubFilter').value;
-            const tbody = document.getElementById('tableBody');
-            
-            tbody.innerHTML = ""; 
-            let count = 0;
-
-            data.forEach(student => {
-                
-                if (filter === "all" || student.clubs === filter) {
-                    const row = `<tr>
-                        <td>${student.studentID}</td>
-                        <td>${student.fullName}</td>
-                        <td>${student.clubs}</td>
-                        <td>${student.status}</td>
-                    </tr>`;
-                    tbody.innerHTML += row;
-                    count++;
-                }
-            });
-
-            
-            document.getElementById('totalDisplay').innerText = count;
-        }
-
-        
-        window.onload = loadTable;
+           
     </script>
 </body>
 </html>
