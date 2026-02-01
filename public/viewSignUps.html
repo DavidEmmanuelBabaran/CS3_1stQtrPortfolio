@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: darkolivegreen;
+    padding: 20px;
+   }
+   form {
+    background-color: white;
+    padding: 20px;
+   }
+   fieldset {
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    margin-bottom: 15px;
+   }
+   label {
+    font-weight: bold;
+   }
+   </style>
+</head>
+<body>
+ 
+    <h2>Club Sign-up List</h2>
+
+    <label>Filter by Club: </label>
+    <select id="clubFilter" onchange="loadTable()">
+        <option value="all">All Club Sign-ups</option>
+        <option value="football">Football</option>
+        <option value="math">Math</option>
+        <option value="science">Science</option>
+        <option value="basketball">Basketball</option>
+        <option value="arts">Arts</option>
+    </select>
+
+    <button onclick="window.location.href='">Back to Form</button>
+
+    <table id="signupTable">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Full Name</th>
+                <th>Club</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <h3>Total Sign-ups: <span id="totalDisplay">0</span></h3>
+
+    <script>
+        function loadTable() {
+            
+            const data = JSON.parse(localStorage.getItem('allSignups')) || [];
+            const filter = document.getElementById('clubFilter').value;
+            const tbody = document.getElementById('tableBody');
+            
+            tbody.innerHTML = ""; 
+            let count = 0;
+
+            data.forEach(student => {
+                
+                if (filter === "all" || student.clubs === filter) {
+                    const row = `<tr>
+                        <td>${student.studentID}</td>
+                        <td>${student.fullName}</td>
+                        <td>${student.clubs}</td>
+                        <td>${student.status}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                    count++;
+                }
+            });
+
+            
+            document.getElementById('totalDisplay').innerText = count;
+        }
+
+        
+        window.onload = loadTable;
+    </script>
+</body>
+</html>
