@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Q41G9 - Strontium Babaran</title>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: darkolivegreen;
+    padding: 20px;
+   }
+   form {
+    background-color: white;
+    padding: 20px;
+   }
+   fieldset {
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    margin-bottom: 15px;
+   }
+   label {
+    font-weight: bold;
+   }
+   .stars {
+    font-size: 30px;
+    cursor: pointer;
+    color: lightgray;
+    display: inline-block; 
+   }
+   .stars span.active {
+    color:gold;
+   }
+   button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   }
+</style>
+
+
+</head>
+
+<body>
+
+<script>
+    let currentRating = 0;
+    function setRating(num) {
+        currentRating = num;
+        const stars = document.querySelectorAll('#starContainer span');
+        stars.forEach((star, index) => {
+            if (index < num) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
+
+    function addMovie() {
+    const title = document.getElementById('movieTitle').value;
+    const year = document.getElementById('movieYear').value;
+    const genre = document.getElementById('movieGenre').value;
+
+    if (!title || !year || currentRating === 0) {
+        alert('Please fill in all fields and choose a rating!');
+        return;
+    }
+
+    const movieObj = {
+        title: title,
+        year: year,
+        genre: genre,
+        rating: currentRating.toString()
+    };
+
+   
+    let movies = JSON.parse(localStorage.getItem('movies') || "[]");
+
+    movies.push(movieObj);
+
+    localStorage.setItem('movies', JSON.stringify(movies));
+
+    alert('Movie added successfully!');
+    
+    document.getElementById('movieForm').reset();
+    setRating(0); 
+}
+</script>    
+
+<form id="movieForm" >
+    <fieldset>
+        <legend> Add a Movie</legend>
+        <label> Title: <input type="text" id="movieTitle" name="title" required></label><br>
+        <label> Year: <input type="number" id="movieYear" name="year" required></label><br>
+        <label for="movieGenre"> Genre:</label>
+        <select name="genre" id="movieGenre">
+            <option value="Action">Action</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Drama">Drama</option>
+            </select></br>
+        <label> Rating:</label>    
+        <div class="stars" id="starContainer">
+            <span onclick="setRating(1)">*</span>
+            <span onclick="setRating(2)">*</span>
+            <span onclick="setRating(3)">*</span>
+            <span onclick="setRating(4)">*</span>
+            <span onclick="setRating(5)">*</span>
+        </div>
+        <button type="button" onclick="addMovie()">Add Movie</button>
+        </fieldset>
+</form>        
+
+</body>
