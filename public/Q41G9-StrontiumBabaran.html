@@ -2,52 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Q41G9 - Strontium Babaran</title>
+    <title>Q41G9 - Strontium Babaran</title>
 <style>
     body {
-    font-family: Arial, sans-serif;
-    background-color: darkolivegreen;
-    padding: 20px;
-   }
-   form {
-    background-color: white;
-    padding: 20px;
-   }
-   fieldset {
-    border: 1px solid darkgray;
-    border-radius: 5px;
-    margin-bottom: 15px;
-   }
-   label {
-    font-weight: bold;
-   }
-   .stars {
-    font-size: 30px;
-    cursor: pointer;
-    color: lightgray;
-    display: inline-block; 
-   }
-   .stars span.active {
-    color:gold;
-   }
-   button {
-    display: block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-   }
+        font-family: Arial, sans-serif;
+        background-color: darkolivegreen;
+        padding: 20px;
+    }
+    form {
+        background-color: white;
+        padding: 20px;
+    }
+    fieldset {
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+    label {
+        font-weight: bold;
+    }
+    .stars {
+        font-size: 30px;
+        cursor: pointer;
+        color: lightgray;
+        display: inline-block; 
+    }
+    .stars span.active {
+        color: gold;
+    }
+    button {
+        display: block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        color: white;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 </style>
-
-
 </head>
-
 <body>
+
+<form id="movieForm">
+    <fieldset>
+        <legend>Add a Movie</legend>
+        <label>Title: <input type="text" id="movieTitle" required></label><br><br>
+        <label>Year: <input type="number" id="movieYear" required></label><br><br>
+        <label for="movieGenre">Genre:</label>
+        <select id="movieGenre">
+            <option value="Action">Action</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Drama">Drama</option>
+        </select><br><br>
+        <label>Rating:</label>    
+        <div class="stars" id="starContainer">
+            <span onclick="setRating(1)">*</span>
+            <span onclick="setRating(2)">*</span>
+            <span onclick="setRating(3)">*</span>
+            <span onclick="setRating(4)">*</span>
+            <span onclick="setRating(5)">*</span>
+        </div>
+        <button type="button" onclick="addMovie()">Add Movie</button>
+    </fieldset>
+</form>
+
+<h2 style="color: white; text-align: center;">Movie List</h2>
+<div id="movieList"></div>
 
 <script>
     let currentRating = 0;
+
     function setRating(num) {
         currentRating = num;
         const stars = document.querySelectorAll('#starContainer span');
@@ -61,57 +86,75 @@
     }
 
     function addMovie() {
-    const title = document.getElementById('movieTitle').value;
-    const year = document.getElementById('movieYear').value;
-    const genre = document.getElementById('movieGenre').value;
+        const title = document.getElementById('movieTitle').value;
+        const year = document.getElementById('movieYear').value;
+        const genre = document.getElementById('movieGenre').value;
 
-    if (!title || !year || currentRating === 0) {
-        alert('Please fill in all fields and choose a rating!');
-        return;
+        if (!title || !year || currentRating === 0) {
+            alert('Please fill in all fields and choose a rating!');
+            return;
+        }
+
+        const movieObj = {
+            title: title,
+            year: year,
+            genre: genre,
+            rating: currentRating.toString()
+        };
+
+        let movies = JSON.parse(localStorage.getItem('movies') || "[]");
+        movies.push(movieObj);
+        localStorage.setItem('movies', JSON.stringify(movies));
+
+        alert('Movie added successfully!');
+        
+        document.getElementById('movieForm').reset();
+        setRating(0); 
+        displayMovies(); 
     }
 
-    const movieObj = {
-        title: title,
-        year: year,
-        genre: genre,
-        rating: currentRating.toString()
-    };
+    function displayMovies() {
+    const listContainer = document.getElementById('movieList');
+    const movies = JSON.parse(localStorage.getItem('movies') || "[]");
 
-   
+    listContainer.innerHTML = '';
+
+    movies.forEach((movie, index) => {
+        const movieEntry = document.createElement('div');
+        movieEntry.style.backgroundColor = 'white';
+        movieEntry.style.padding = '10px';
+        movieEntry.style.margin = '10px 0';
+        movieEntry.style.borderRadius = '5px';
+        movieEntry.style.border = '1px solid lightgray';
+        movieEntry.style.display = 'flex';
+        movieEntry.style.justifyContent = 'space-between';
+        movieEntry.style.alignItems = 'center';
+
+        let starsDisplay = '★'.repeat(Number(movie.rating));
+
+        movieEntry.innerHTML = `
+            <div>
+                <strong>${movie.title} (${movie.year})</strong> - ${movie.genre}, 
+                Rating: <span style="color: gold;">${starsDisplay}</span>
+            </div>
+            <button onclick="deleteMovie(${index})" style="background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-top: 0;">Delete</button>
+        `;
+        listContainer.appendChild(movieEntry);
+    });
+}
+
+function deleteMovie(index) {
     let movies = JSON.parse(localStorage.getItem('movies') || "[]");
 
-    movies.push(movieObj);
-
+    movies.splice(index, 1);
+   
     localStorage.setItem('movies', JSON.stringify(movies));
 
-    alert('Movie added successfully!');
-    
-    document.getElementById('movieForm').reset();
-    setRating(0); 
+    displayMovies();
 }
-</script>    
 
-<form id="movieForm" >
-    <fieldset>
-        <legend> Add a Movie</legend>
-        <label> Title: <input type="text" id="movieTitle" name="title" required></label><br>
-        <label> Year: <input type="number" id="movieYear" name="year" required></label><br>
-        <label for="movieGenre"> Genre:</label>
-        <select name="genre" id="movieGenre">
-            <option value="Action">Action</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Drama">Drama</option>
-            </select></br>
-        <label> Rating:</label>    
-        <div class="stars" id="starContainer">
-            <span onclick="setRating(1)">*</span>
-            <span onclick="setRating(2)">*</span>
-            <span onclick="setRating(3)">*</span>
-            <span onclick="setRating(4)">*</span>
-            <span onclick="setRating(5)">*</span>
-        </div>
-        <button type="button" onclick="addMovie()">Add Movie</button>
-        </fieldset>
-</form>        
+    displayMovies();
+</script>
 
 </body>
+</html>
